@@ -1,0 +1,54 @@
+############################
+# HLint Configuration File #
+############################
+
+# See https://github.com/ndmitchell/hlint
+
+#######################
+# MODULE RESTRICTIONS #
+#######################
+
+## TODO: Upgrade to hlint 3.5 (or maybe 3.4) for importStyle restriction.
+##
+## This will allow us to restrict the usage of some module ONLY by
+## qualification.
+- modules:
+  - {name: Control.Monad.Error, within: []}
+  - {name: [Data.Aeson], as: Aeson}
+  - {name: Data.ByteString, as: B}
+  - {name: Data.ByteString.Base64, as: Base64}
+  - {name: Data.ByteString.Char8, as: BC}
+  - {name: Data.ByteString.Lazy, as: BL}
+  - {name: Data.ByteString.Lazy.Char8, as: BLC}
+  - {name: Data.Text, as: T}
+  - {name: Data.Text.Encoding, as: TE}
+  - {name: Data.Text.Lazy, as: TL}
+  - {name: Data.Time, as: Time}
+
+##########################
+# EXTENSION RESTRICTIONS #
+##########################
+
+- extensions:
+  - default: false # All extension are banned by default
+  - name: # Only these listed extensions should be used (to be refined further in the future):
+    - DataKinds
+    - DeriveGeneric
+    - GADTs
+    - GeneralizedNewtypeDeriving
+    - OverloadedStrings
+    - QuasiQuotes
+    - ScopedTypeVariables
+    - TemplateHaskell
+    - TypeApplications
+    - TypeOperators
+
+################
+# CUSTOM RULES #
+################
+
+# Replace a $ b $ c with a . b $ c
+- group: {name: dollar, enabled: true}
+
+# Generalise map to fmap, ++ to <>
+- group: {name: generalise, enabled: true}

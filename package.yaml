@@ -1,0 +1,66 @@
+name:                rewire-auth
+version:             0.0.0.1
+github:              "telostat/rewire-auth"
+license:             MIT
+author:              "Vehbi Sinan Tunalioglu"
+maintainer:          "vst@vsthost.com"
+copyright:           "Copyright (c) 2022 Telostat Pte Ltd"
+
+extra-source-files:
+- README.md
+- CHANGELOG.md
+
+description:         Please see the README on GitHub at <https://github.com/telostat/rewire-auth#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+- aeson
+- lens
+- openapi3
+- servant-openapi3
+- servant-server
+- servant-swagger-ui
+- text
+- wai-logger
+- warp
+
+library:
+  source-dirs: src
+  ghc-options:
+  - -Wall
+  - -Wunused-packages
+
+executables:
+  rewire-auth:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -Wall
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - rewire-auth
+    - optparse-applicative
+
+tests:
+  rewire-auth-test:
+    main:                test.hs
+    source-dirs:         test
+    ghc-options:
+    - -Wall
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - rewire-auth
+
+  rewire-auth-doctest:
+    main:           doctest.hs
+    source-dirs:    test
+    ghc-options:
+    - -Wall
+    - -threaded
+    dependencies:
+    - rewire-auth
+    - doctest

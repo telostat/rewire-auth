@@ -1,0 +1,115 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.34.7.
+--
+-- see: https://github.com/sol/hpack
+
+name:           rewire-auth
+version:        0.0.0.1
+description:    Please see the README on GitHub at <https://github.com/telostat/rewire-auth#readme>
+homepage:       https://github.com/telostat/rewire-auth#readme
+bug-reports:    https://github.com/telostat/rewire-auth/issues
+author:         Vehbi Sinan Tunalioglu
+maintainer:     vst@vsthost.com
+copyright:      Copyright (c) 2022 Telostat Pte Ltd
+license:        MIT
+build-type:     Simple
+extra-source-files:
+    README.md
+    CHANGELOG.md
+
+source-repository head
+  type: git
+  location: https://github.com/telostat/rewire-auth
+
+library
+  exposed-modules:
+      Rewire.Auth.Web
+      Rewire.Auth.Web.Api
+      Rewire.Auth.Web.Api.Endpoints
+      Rewire.Auth.Web.Api.Endpoints.HealthCheck
+      Rewire.Auth.Web.Api.Endpoints.Version
+  other-modules:
+      Paths_rewire_auth
+  hs-source-dirs:
+      src
+  ghc-options: -Wall -Wunused-packages
+  build-depends:
+      aeson
+    , base >=4.7 && <5
+    , lens
+    , openapi3
+    , servant-openapi3
+    , servant-server
+    , servant-swagger-ui
+    , text
+    , wai-logger
+    , warp
+  default-language: Haskell2010
+
+executable rewire-auth
+  main-is: Main.hs
+  other-modules:
+      Paths_rewire_auth
+  hs-source-dirs:
+      app
+  ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      aeson
+    , base >=4.7 && <5
+    , lens
+    , openapi3
+    , optparse-applicative
+    , rewire-auth
+    , servant-openapi3
+    , servant-server
+    , servant-swagger-ui
+    , text
+    , wai-logger
+    , warp
+  default-language: Haskell2010
+
+test-suite rewire-auth-doctest
+  type: exitcode-stdio-1.0
+  main-is: doctest.hs
+  other-modules:
+      Paths_rewire_auth
+  hs-source-dirs:
+      test
+  ghc-options: -Wall -threaded
+  build-depends:
+      aeson
+    , base >=4.7 && <5
+    , doctest
+    , lens
+    , openapi3
+    , rewire-auth
+    , servant-openapi3
+    , servant-server
+    , servant-swagger-ui
+    , text
+    , wai-logger
+    , warp
+  default-language: Haskell2010
+
+test-suite rewire-auth-test
+  type: exitcode-stdio-1.0
+  main-is: test.hs
+  other-modules:
+      Paths_rewire_auth
+  hs-source-dirs:
+      test
+  ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      aeson
+    , base >=4.7 && <5
+    , lens
+    , openapi3
+    , rewire-auth
+    , servant-openapi3
+    , servant-server
+    , servant-swagger-ui
+    , text
+    , wai-logger
+    , warp
+  default-language: Haskell2010
