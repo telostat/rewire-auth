@@ -34,8 +34,10 @@
   - name: # Only these listed extensions should be used (to be refined further in the future):
     - DataKinds
     - DeriveGeneric
+    - DerivingStrategies
     - GADTs
     - GeneralizedNewtypeDeriving
+    - InstanceSigs
     - OverloadedStrings
     - QuasiQuotes
     - ScopedTypeVariables
