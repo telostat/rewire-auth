@@ -5,10 +5,9 @@
 
 module Rewire.Auth.Internal.Backends.InMemory where
 
-import Control.Monad.Catch (MonadThrow)
+import Control.Monad.Catch (MonadCatch, MonadThrow)
 import Control.Monad.IO.Class (MonadIO, liftIO)
-import Control.Monad.State (gets)
-import Control.Monad.State.Strict (MonadState, StateT, modify')
+import Control.Monad.State.Strict (MonadState, StateT, gets, modify', runStateT)
 import Data.Foldable (find)
 import qualified Data.Text as T
 import Data.UUID (UUID)
@@ -31,10 +30,18 @@ data InMemoryBackendState = InMemoryBackendState
   }
 
 
-newtype InMemoryBackend m = InMemoryBackendT
-  { unInMemoryBackendT :: StateT InMemoryBackendState IO m
+emptyInMemoryBackendState :: InMemoryBackendState
+emptyInMemoryBackendState =
+  InMemoryBackendState
+    { inMemoryBackendStateUsers = []
+    , inMemoryBackendStatePasswords = []
+    }
+
+
+newtype InMemoryBackend a = InMemoryBackend
+  { unInMemoryBackend :: StateT InMemoryBackendState IO a
   }
-  deriving newtype (Functor, Applicative, Monad, MonadIO, MonadThrow, MonadState InMemoryBackendState)
+  deriving newtype (Functor, Applicative, Monad, MonadIO, MonadCatch, MonadThrow, MonadState InMemoryBackendState)
 
 
 instance MonadUser InMemoryBackend where
@@ -92,4 +99,16 @@ instance MonadUser InMemoryBackend where
     mUser <- findUser query
     case mUser of
       Nothing -> throwCanNotSetPassword "No such user found to set its password."
-      Just su -> modify' (\s -> s {inMemoryBackendStatePasswords = (userId su, password) : inMemoryBackendStatePasswords s})
+      Just su -> modify' (\s -> s {inMemoryBackendStatePasswords = updatePassword (userId su) password s})
+    where
+      updatePassword ui up s = (ui, up) : filter (\(x, _) -> x /= ui) (inMemoryBackendStatePasswords s)
+
+
+runInMemoryBackend :: InMemoryBackendState -> InMemoryBackend a -> IO a
+runInMemoryBackend s (InMemoryBackend p) = do
+  (a, _) <- runStateT p s
+  pure a
+
+
+runInMemoryBackendWithEmptyState :: InMemoryBackend a -> IO a
+runInMemoryBackendWithEmptyState = runInMemoryBackend emptyInMemoryBackendState
