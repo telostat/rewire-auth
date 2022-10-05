@@ -11,6 +11,7 @@ data User = User
   , userName :: !Username
   , userMail :: !EmailAddress
   }
+  deriving (Eq, Show)
 
 
 data UserIdentQuery
@@ -21,7 +22,7 @@ data UserIdentQuery
 
 
 data UserCredentials = UserCredentials
-  { userCredentialsIdent :: UserIdentQuery
+  { userCredentialsIdent :: !UserIdentQuery
   , userCredentialsPassword :: !Password
   }
 
