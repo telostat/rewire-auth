@@ -35,6 +35,8 @@ library
       Rewire.Auth.Web
       Rewire.Auth.Web.Api
       Rewire.Auth.Web.Api.Endpoints
+      Rewire.Auth.Web.Api.Endpoints.Auth
+      Rewire.Auth.Web.Api.Endpoints.Auth.Login
       Rewire.Auth.Web.Api.Endpoints.HealthCheck
       Rewire.Auth.Web.Api.Endpoints.Version
   other-modules:
