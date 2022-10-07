@@ -1,18 +1,18 @@
+{-# LANGUAGE DataKinds #-}
+{-# LANGUAGE TypeOperators #-}
+
+-- | This module provides authentication API endpoint definitions.
 module Rewire.Auth.Web.Api.Endpoints.Auth where
 
-import Rewire.Auth.Web.Api.Endpoints.Auth.Login (ApiAuthLogin, performAuthLogin)
+import qualified Rewire.Auth.Web.Api.Endpoints.Auth.Login as Login
+import Servant (type (:>))
 import qualified Servant
 
 
--- | Authentication API type definition.
-type ApiAuth = ApiAuthLogin
-
-
 -- | Authentication API definition.
-apiAuth :: Servant.Proxy ApiAuth
-apiAuth = Servant.Proxy
+type Api = "auth" :> Login.Api
 
 
--- | Authentication API server implementation.
-apiAuthServer :: Servant.Server ApiAuth
-apiAuthServer = performAuthLogin
+-- | Authentication API handler.
+handler :: Servant.Server Api
+handler = Login.handler

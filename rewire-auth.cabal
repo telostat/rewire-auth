@@ -25,15 +25,18 @@ source-repository head
 
 library
   exposed-modules:
+      Rewire.Auth.Internal.Aeson
       Rewire.Auth.Internal.Backends.InMemory
       Rewire.Auth.Internal.Class
       Rewire.Auth.Internal.EmailAddress
       Rewire.Auth.Internal.Exceptions
       Rewire.Auth.Internal.Password
+      Rewire.Auth.Internal.Secret
       Rewire.Auth.Internal.User
       Rewire.Auth.Internal.Username
       Rewire.Auth.Web
       Rewire.Auth.Web.Api
+      Rewire.Auth.Web.Api.Documentation
       Rewire.Auth.Web.Api.Endpoints
       Rewire.Auth.Web.Api.Endpoints.Auth
       Rewire.Auth.Web.Api.Endpoints.Auth.Login
