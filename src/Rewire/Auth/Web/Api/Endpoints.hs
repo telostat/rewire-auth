@@ -1,23 +1,19 @@
 {-# LANGUAGE TypeOperators #-}
 
--- | This module provides core API endpoint definitions.
+-- | This module provides API endpoint definitions.
 module Rewire.Auth.Web.Api.Endpoints where
 
-import Rewire.Auth.Web.Api.Endpoints.HealthCheck (ApiHealthCheck, getHealthCheck)
-import Rewire.Auth.Web.Api.Endpoints.Version (ApiVersion, getVersion)
+import qualified Rewire.Auth.Web.Api.Endpoints.Auth as Auth
+import qualified Rewire.Auth.Web.Api.Endpoints.HealthCheck as HealthCheck
+import qualified Rewire.Auth.Web.Api.Endpoints.Version as Version
 import Servant (type (:<|>) ((:<|>)))
 import qualified Servant
 
 
--- | Core API type definition.
-type ApiCore = ApiVersion :<|> ApiHealthCheck
+-- | Endpoints API definition.
+type Api = Version.Api :<|> HealthCheck.Api :<|> Auth.Api
 
 
--- | Core API definition.
-apiCore :: Servant.Proxy ApiCore
-apiCore = Servant.Proxy
-
-
--- | Core API server implementation.
-apiCoreServer :: Servant.Server ApiCore
-apiCoreServer = getVersion :<|> getHealthCheck
+-- | Endpoints API handler.
+handler :: Servant.Server Api
+handler = Version.handler :<|> HealthCheck.handler :<|> Auth.handler

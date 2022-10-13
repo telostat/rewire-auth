@@ -16,39 +16,33 @@ import Servant (type (:>))
 import qualified Servant
 
 
+-- * API Definition
+
+
+-- | Version API definition.
+type Api =
+  "version"
+    :> Servant.Summary "Version Endpoint"
+    :> Servant.Description "This endpoint returns the version of the application."
+    :> Servant.Get '[Servant.JSON] VersionResponsePayload
+
+
+-- | Version API handler.
+handler :: Monad m => m VersionResponsePayload
+handler = pure buildVersionResponsePayload
+
+
+-- * API Implementaion
+
+
 -- | Data definition of version data.
-newtype VersionData = VersionData
-  { unVersionData :: T.Text
+newtype VersionResponsePayload = VersionResponsePayload
+  { unVersionResponsePayload :: T.Text
   }
   deriving (Generic, Aeson.ToJSON, OpenApi.ToSchema)
 
 
--- NOTE: Once we expand the health-check data definition, we will implement the
--- OpenAPI schema as below.
---
--- instance OpenApi.ToSchema VersionData where
---   declareNamedSchema proxy = OpenApi.genericDeclareNamedSchema OpenApi.defaultSchemaOptions proxy
---     & Lens.mapped . OpenApi.schema . OpenApi.description ?~ "Version data definition"
---     & Lens.mapped . OpenApi.schema . OpenApi.example ?~ Aeson.toJSON getCurrentVersion
-
--- | Returns the 'VersionData' representing the current version of the application/library.
-getCurrentVersion :: VersionData
-getCurrentVersion = VersionData (T.pack (showVersion version))
-
-
--- | Version API type definition.
-type ApiVersion =
-  "version"
-    :> Servant.Summary "Version Endpoint"
-    :> Servant.Description "This endpoint returns the version of the application."
-    :> Servant.Get '[Servant.JSON] VersionData
-
-
--- | Version API definition.
-apiVersion :: Servant.Proxy ApiVersion
-apiVersion = Servant.Proxy
-
-
--- | Version API request handler.
-getVersion :: Monad m => m VersionData
-getVersion = pure getCurrentVersion
+-- | Builds version response payload representing the current version of the
+-- application/library.
+buildVersionResponsePayload :: VersionResponsePayload
+buildVersionResponsePayload = VersionResponsePayload (T.pack (showVersion version))
